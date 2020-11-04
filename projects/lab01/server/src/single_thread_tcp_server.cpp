@@ -6,17 +6,30 @@ void handle_connection(SOCKET socket, sockaddr_in* addr) {
     char* str_in_addr = inet_ntoa(addr->sin_addr);
     printf("[%s]>>%s\n", str_in_addr, "Establish new connection");
 
-    char buffer[256] = "";
-    FILE* fd = fopen("Test.txt", "wb");
-    int rc;
-    rc = recv(socket, (char*)&buffer, sizeof(buffer), 0);
-    fwrite(&buffer, 1, rc, fd);
+    while (true) {
+        char buffer[256] = "";
+        int rc;
+        rc = recv(socket, (char *) &buffer, sizeof(buffer), 0);
 
-    fclose(fd);
+        if (rc > 0) {
+
+            FILE *fd = fopen("Test.txt", "wb");
+            fwrite(&buffer, 1, rc, fd);
+
+            printf("Received: %s\n", buffer);
+            printf("Hash: %u\n", HashFAQ6(buffer));
+
+            fclose(fd);
+        }
+        else {
+            break;
+        }
+
+        printf("Received: %s\n", buffer);
+        printf("Hash: %u\n", HashFAQ6(buffer));
+    }
     close_socket(socket);
-    
-    printf("Received: %s\n", buffer);
-    printf("Hash: %u\n", HashFAQ6(buffer));
+
     printf("[%s]>>%s", str_in_addr, "Close incomming connection\n");
 }
 
