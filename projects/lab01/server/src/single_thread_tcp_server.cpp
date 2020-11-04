@@ -8,25 +8,14 @@ void handle_connection(SOCKET socket, sockaddr_in* addr) {
 
     while (true) {
         char buffer[256] = "";
-        int rc;
-        rc = recv(socket, (char *) &buffer, sizeof(buffer), 0);
-
+        int rc = recv(socket, (char *) &buffer, sizeof(buffer), 0);
         if (rc > 0) {
-
-            FILE *fd = fopen("Test.txt", "wb");
-            fwrite(&buffer, 1, rc, fd);
-
             printf("Received: %s\n", buffer);
             printf("Hash: %u\n", HashFAQ6(buffer));
-
-            fclose(fd);
         }
         else {
             break;
         }
-
-        printf("Received: %s\n", buffer);
-        printf("Hash: %u\n", HashFAQ6(buffer));
     }
     close_socket(socket);
 
@@ -49,5 +38,4 @@ unsigned int HashFAQ6(const char * str)
     hash += (hash << 15);
 
     return hash;
-
 }

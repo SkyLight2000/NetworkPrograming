@@ -38,8 +38,10 @@ int main(int argc, char* argv[])
 
 	printf("Connection to the server %s:%d success\n", host, port);
 
-	char buffer[20] = "";
-    FILE *fd = fopen("Test.txt", "r");
+    char buffer[20] = "";
+    char path[100] = "files/Test.txt";
+
+    FILE *fd = fopen(path, "r");
     int bytes_read;
 
     while (!feof(fd)) {
