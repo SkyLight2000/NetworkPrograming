@@ -29,8 +29,8 @@ int main(int argc, char* argv[])
 	struct sockaddr_in server_addr;
 	init_inet_address(&server_addr, host, port);
 
-	
-	char msg[256] = "";
+
+	/*char msg[256] = "";
 	printf("%s", "Enter msg:");
 	//fgets(msg, sizeof(msg), stdin);
 	scanf("%[^\n]s", msg);
@@ -40,7 +40,31 @@ int main(int argc, char* argv[])
 		sprintf(err_msg, "Can't send data to the %s:%d", host, port);
 		error_msg(err_msg);
 		return -1;
-	}
+	}*/
+
+    char buffer[20] = "";
+    char path[100] = "files/Test.txt";
+
+    FILE *fd = fopen(path, "r");
+    int bytes_read;
+
+    while (!feof(fd)) {
+        if ((bytes_read = fread(&buffer, sizeof(char), 20, fd)) > 0) {
+            int sc = sendto(sender_socket, buffer, sizeof(buffer), 0, (sockaddr*)&server_addr, sizeof(server_addr));
+            if (sc <= 0) {
+                char err_msg[128] = "";
+                sprintf(err_msg, "Can't send data to the %s:%d", host, port);
+                error_msg(err_msg);
+                return -1;
+            }
+            //send(client_socket, buffer, bytes_read, 0);
+        }
+        else
+            break;
+    }
+
+    fclose(fd);
+    printf("Text: %s\n", buffer);
 
 	return 0;
 }
