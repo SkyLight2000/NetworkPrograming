@@ -7,8 +7,6 @@ bool process_receive_data(SOCKET socket) {
 	memset(&incom_addr, 0, sizeof(incom_addr));
 	socklen_t len = sizeof(incom_addr);
 	char buffer[256] = "";
-	//int rec_cn = recvfrom(socket, buffer, sizeof(buffer), 0, (sockaddr*)&incom_addr, &len);
-
 	int rc = recvfrom(socket, buffer, sizeof(buffer), 0, (sockaddr*)&incom_addr, &len);
 	if (rc > 0) {
         printf("[From: %s] Received data [%s]\n", inet_ntoa(incom_addr.sin_addr), buffer);
@@ -23,9 +21,7 @@ bool process_receive_data(SOCKET socket) {
 
 unsigned int HashFAQ6(const char * str)
 {
-
     unsigned int hash = 0;
-
     for (; *str; str++)
     {
         hash += (unsigned char)(*str);
