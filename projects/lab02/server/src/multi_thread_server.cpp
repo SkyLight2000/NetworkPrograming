@@ -1,4 +1,4 @@
-#include "simple_http_server.h"
+#include "ping.h"
 
 unsigned int HashFAQ6(const char * str);
 
