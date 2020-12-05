@@ -1,4 +1,4 @@
-project(pr02_tcp_thread_server)
+project(pr03_tcp_thread_server)
 
 include_directories(include)
 file(GLOB SRC src/*.cpp src/*.cxx)
